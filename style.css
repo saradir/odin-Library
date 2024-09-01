@@ -56,10 +56,30 @@
     height: 50px;
     width:auto;
 }
-.icon.trash{
+.book .icon{
     position: absolute;
-    left: 10px;
-    bottom: 5px;
-    height: 30px;
+    height: 25px;
     width: auto;
+}
+
+.icon.trash{
+    left: 5px;
+    bottom: 5px;
+}
+
+.icon.unread{
+    top:5px;
+    left:5px;
+    height: 40px;
+}
+
+
+#book-sidebar form{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.book-sidebar input{
+    display: block;
 }
