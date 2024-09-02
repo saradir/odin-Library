@@ -5,7 +5,7 @@ function Book(title, author, pagesNum, status){
     this.title = title;
     this.author = author;
     this.pagesNum = pagesNum;
-    this.read = false;
+    this.read = status;
 
     this.info = function(){
         return(`${this.title} by ${this.author}, ${pagesNum} pages, ${status}`);
@@ -43,9 +43,9 @@ function toggleStatus(icon, bookIndex){
 
     }
 
-function displayBooks(){
+function updateBookshelf(){
 
-
+    bookshelf.innerHTML = ''; // clean display
     for(let i = 0; i < myLibrary.length; i++){
         const book = myLibrary[i];
         const bookDiv = document.createElement('div');
@@ -55,8 +55,13 @@ function displayBooks(){
 
         const readIcon = document.createElement('img');
         const deleteIcon = document.createElement('img');
+        const addIcon = document.createElement('img');
+
 
         const bookStatus = book.read? 'read':'unread';
+        addIcon.src = "icons/icons8-plus.svg";
+        addIcon.className = "icon add";
+        addIcon.id = "addButton";
         readIcon.src = `icons/icon_${bookStatus}.svg`
         readIcon.className =`icon status`;
         readIcon.id = "statusIcon";
@@ -67,6 +72,7 @@ function displayBooks(){
         bookDiv.appendChild(readIcon);
         bookDiv.appendChild(deleteIcon);
         bookshelf.appendChild(bookDiv);
+        bookshelf.appendChild(addIcon);
     }
 }
 
@@ -76,7 +82,7 @@ const bookSidebar = document.querySelector('#book-sidebar');
 function showForm(){
     bookSidebar.innerHTML = `
     <h3> Add New Book </h3>
-    <form id ="addForm">
+    <form id="addForm">
         <label for="title">Book Title:</label>
         <input type="text" id="title" name="title">
         <label for="author">Author Name:</label>
@@ -85,15 +91,16 @@ function showForm(){
         <input type="text" id="page-num" name="pages">
         <div class="radio-buttons">
             <legend>Status:</legend>
-            <input type="radio" name="status1" id="status1" value="unread">
+            <input type="radio" name="status" id="status1" value=false>
             <label for="status1">Not Read Yet</label>
-            <input type="radio" name="status2" id="status2" value="read">
+            <input type="radio" name="status" id="status2" value=true>
             <label for="status2">Read</label>
         </div>
 
         <button type="submit">Add Book</button>
     </form>
     `;
+    setupForm();
 }
 
 function showBook(book){
@@ -127,13 +134,35 @@ bookshelf.addEventListener('click', (e) =>{
             case "icon trash":
                 removeBook(index);
                 clearShelf();
-                displayBooks();
+                updateBookshelf();
                 break;
         }
         }
     }
 )
 
+/* code to add event listener to form when shown */
+function setupForm(){
+    const form = document.querySelector('#addForm');
+
+    if(form){
+        form.addEventListener('submit', (e)=>{
+            e.preventDefault();
+            const formData = new FormData(form);
+            const title = formData.get('title');
+            const author = formData.get('author');
+            const numPages = formData.get('pages');
+            const status = JSON.parse(formData.get('status')); // here we convert formData's string to boolean
+
+            const newBook = new Book(title, author, numPages, status);
+            addBook(newBook);
+            updateBookshelf();
+
+            // reset form
+            form.reset();
+        })
+    }
+}
 
 /* initial book set up for testing */
 const book1 = new Book('Lord of the Rings' ,'Tolkien','900', true);
@@ -144,4 +173,4 @@ const book5 = new Book('Blame!' ,'author','230', true);
 
 myLibrary.push(book1, book2, book3, book4, book5);
 
-displayBooks();
+updateBookshelf();
