@@ -1,17 +1,19 @@
 const myLibrary =[];
 const bookshelf = document.querySelector('.bookshelf');
 
-function Book(title, author, pagesNum, status){
-    this.title = title;
-    this.author = author;
-    this.pagesNum = pagesNum;
-    this.read = status;
-
-    this.info = function(){
-        return(`${this.title} by ${this.author}, ${pagesNum} pages, ${status}`);
+class Book{
+    constructor(title, author, pagesNum, status){
+        this.title = title;
+        this.author = author;
+        this.pagesNum = pagesNum;
+        this.read = status;
     }
 
-    this.changeStatus = function(){
+    showInfo(){
+        return(`${this.title} by ${this.author}, ${pagesNum} pages, ${this.status}`);
+    }
+
+    changeStatus(){
             this.read = !this.read;
         }
 }
