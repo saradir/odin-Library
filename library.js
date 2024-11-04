@@ -84,14 +84,14 @@ function showForm(){
     <h3> Add New Book </h3>
     <form id="addForm">
         <label for="title">Book Title:</label>
-        <input type="text" id="title" name="title">
+        <input type="text" id="title" name="title" required>
         <label for="author">Author Name:</label>
-        <input type="text" id="author" name="author">
+        <input type="text" id="author" name="author" required>
         <label for="page-num">Number of Pages:</label>
-        <input type="text" id="page-num" name="pages">
+        <input type="number" id="page-num" name="pages" required>
         <div class="radio-buttons">
             <legend>Status:</legend>
-            <input type="radio" name="status" id="status1" value=false>
+            <input type="radio" name="status" id="status1" value=false checked>
             <label for="status1">Not Read Yet</label>
             <input type="radio" name="status" id="status2" value=true>
             <label for="status2">Read</label>
